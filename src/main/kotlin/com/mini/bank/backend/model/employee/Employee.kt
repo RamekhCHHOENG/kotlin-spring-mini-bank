@@ -1,6 +1,6 @@
 package com.mini.bank.backend.model.employee
 
-import com.mini.bank.backend.model.person.Person
+import com.mini.bank.backend.model.user.User
 import jakarta.persistence.*
 
 @Entity
@@ -14,6 +14,6 @@ data class Employee(
     val position: String,
 
     @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "personId")
-    val person: Person
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    val person: User
 )

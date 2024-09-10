@@ -7,6 +7,8 @@ import com.mini.bank.backend.model.user.User
 import com.mini.bank.backend.repository.user.UserRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Service
 class UserService(private val userRepository: UserRepository) {
@@ -19,14 +21,33 @@ class UserService(private val userRepository: UserRepository) {
 
     @Transactional
     fun createUser(createUserRequest: CreateUserRequest): UserResponse {
-        val user = User(name = createUserRequest.name, email = createUserRequest.email)
+        val user = User(
+            userId = 0,
+            lastName = createUserRequest.lastName,
+            firstName = createUserRequest.firstName,
+            dateOfBirth = parseDate(createUserRequest.dateOfBirth),
+            email = createUserRequest.email,
+            phoneNumber = createUserRequest.phoneNumber,
+            address = createUserRequest.address,
+            taxIdentifier = createUserRequest.taxIdentifier,
+            gender = createUserRequest.gender
+        )
         return userRepository.save(user).toResponse()
     }
 
     @Transactional
     fun updateUser(userId: Long, updateUserRequest: UpdateUserRequest): UserResponse? {
         val existingUser = userRepository.findById(userId).orElse(null) ?: return null
-        val updatedUser = existingUser.copy(name = updateUserRequest.name, email = updateUserRequest.email)
+        val updatedUser = existingUser.copy(
+            lastName = updateUserRequest.lastName ?: existingUser.lastName,
+            firstName = updateUserRequest.firstName ?: existingUser.firstName,
+            dateOfBirth = updateUserRequest.dateOfBirth?.let { parseDate(it) } ?: existingUser.dateOfBirth,
+            email = updateUserRequest.email ?: existingUser.email,
+            phoneNumber = updateUserRequest.phoneNumber ?: existingUser.phoneNumber,
+            address = updateUserRequest.address ?: existingUser.address,
+            taxIdentifier = updateUserRequest.taxIdentifier ?: existingUser.taxIdentifier,
+            gender = updateUserRequest.gender ?: existingUser.gender
+        )
         return userRepository.save(updatedUser).toResponse()
     }
 
@@ -37,5 +58,21 @@ class UserService(private val userRepository: UserRepository) {
         return true
     }
 
-    private fun User.toResponse() = UserResponse(id = id, name = name, email = email)
+    private fun User.toResponse() = UserResponse(
+        id = userId,
+        lastName = lastName,
+        firstName = firstName,
+        dateOfBirth = dateOfBirth.toString(),  // Adjust the date formatting as needed
+        email = email,
+        phoneNumber = phoneNumber,
+        address = address,
+        taxIdentifier = taxIdentifier,
+        gender = gender
+    )
+
+    // Example function to parse date strings; adjust as necessary
+    private fun parseDate(dateString: String): Date {
+        // Implement parsing logic, for example using SimpleDateFormat
+        return SimpleDateFormat("yyyy-MM-dd").parse(dateString) ?: Date()
+    }
 }
