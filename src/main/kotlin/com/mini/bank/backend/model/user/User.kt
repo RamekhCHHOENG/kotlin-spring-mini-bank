@@ -1,6 +1,7 @@
 package com.mini.bank.backend.model.user
 
 import com.mini.bank.backend.enums.Gender
+import com.mini.bank.backend.enums.RoleType
 import jakarta.persistence.*
 import java.util.Date
 
@@ -20,7 +21,7 @@ data class User(
     @Column(nullable = false)
     val dateOfBirth: Date,
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     val email: String,
 
     @Column(nullable = false)
@@ -34,5 +35,15 @@ data class User(
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val gender: Gender
+    val gender: Gender,
+
+    @Column(nullable = false, unique = true)
+    val username: String,
+
+    @Column(nullable = false)
+    val password: String,
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    val role: RoleType
 )

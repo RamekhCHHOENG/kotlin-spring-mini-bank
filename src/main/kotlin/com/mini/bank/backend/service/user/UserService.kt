@@ -30,7 +30,10 @@ class UserService(private val userRepository: UserRepository) {
             phoneNumber = createUserRequest.phoneNumber,
             address = createUserRequest.address,
             taxIdentifier = createUserRequest.taxIdentifier,
-            gender = createUserRequest.gender
+            gender = createUserRequest.gender,
+            role = createUserRequest.role,
+            username = createUserRequest.username,
+            password = createUserRequest.password
         )
         return userRepository.save(user).toResponse()
     }
@@ -47,6 +50,7 @@ class UserService(private val userRepository: UserRepository) {
             address = updateUserRequest.address ?: existingUser.address,
             taxIdentifier = updateUserRequest.taxIdentifier ?: existingUser.taxIdentifier,
             gender = updateUserRequest.gender ?: existingUser.gender
+
         )
         return userRepository.save(updatedUser).toResponse()
     }
@@ -67,7 +71,8 @@ class UserService(private val userRepository: UserRepository) {
         phoneNumber = phoneNumber,
         address = address,
         taxIdentifier = taxIdentifier,
-        gender = gender
+        gender = gender,
+        role = role
     )
 
     // Example function to parse date strings; adjust as necessary
