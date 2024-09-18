@@ -38,7 +38,7 @@ data class UserResponse(
     val address: String,
     val taxIdentifier: String,
     val gender: Gender,
-    val role: RoleType
-//    val username: String,
+    val role: RoleType,
+    val username: String,
 //    val password: String
 )

@@ -18,11 +18,11 @@ class CustomUserDetailsService(
     override fun loadUserByUsername(username: String): UserDetails =
         userRepository.findByUsername(username)
             ?.mapToUserDetails()
-            ?: throw UsernameNotFoundException("Not found!")
+            ?: throw UsernameNotFoundException("User Not found!")
 
     private fun ApplicationUser.mapToUserDetails(): UserDetails =
         User.builder()
-            .username(this.email)
+            .username(this.username)
             .password(this.password)
             .roles(this.role.name)
             .build()

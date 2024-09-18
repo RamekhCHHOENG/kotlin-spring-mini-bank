@@ -1,8 +1,8 @@
 package com.mini.bank.backend.service
 
 import com.mini.bank.backend.config.JwtProperties
-import com.mini.bank.backend.controller.auth.AuthenticationRequest
-import com.mini.bank.backend.controller.auth.AuthenticationResponse
+import com.mini.bank.backend.dto.authentication.AuthenticationRequest
+import com.mini.bank.backend.dto.authentication.AuthenticationResponse
 import com.mini.bank.backend.repository.user.RefreshTokenRepository
 import com.mini.bank.backend.service.user.CustomUserDetailsService
 import org.springframework.security.authentication.AuthenticationManager
@@ -21,6 +21,9 @@ class AuthenticationService(
 ) {
 
     fun authentication(authenticationRequest: AuthenticationRequest): AuthenticationResponse {
+        println("Attempting to authenticate user: ${authenticationRequest.username}")
+        println("Password: ${authenticationRequest.password}")
+
         authManager.authenticate(
             UsernamePasswordAuthenticationToken(
                 authenticationRequest.username,

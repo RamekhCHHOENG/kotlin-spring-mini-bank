@@ -1,5 +1,7 @@
 package com.mini.bank.backend.controller.auth
 
+import com.mini.bank.backend.dto.authentication.AuthenticationRequest
+import com.mini.bank.backend.dto.authentication.AuthenticationResponse
 import com.mini.bank.backend.service.AuthenticationService
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

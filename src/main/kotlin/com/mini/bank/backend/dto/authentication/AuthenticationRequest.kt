@@ -1,4 +1,4 @@
-package com.mini.bank.backend.controller.auth
+package com.mini.bank.backend.dto.authentication
 
 data class AuthenticationRequest(
     val username: String,

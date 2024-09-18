@@ -25,6 +25,7 @@ class JwtAuthenticationFilter(
         filterChain: FilterChain
     ) {
         val authHeader: String? = request.getHeader("Authorization")
+        println("Here is auth header: $authHeader")
 
         if (authHeader.doesNotContainBearerToken()) {
             filterChain.doFilter(request, response)
@@ -33,6 +34,7 @@ class JwtAuthenticationFilter(
 
         val jwtToken = authHeader!!.extractTokenValue()
         val username = tokenService.extractUsername(jwtToken)
+        println("Extracted username from token: $username")
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {
             val foundUser = userDetailsService.loadUserByUsername(username)

@@ -38,3 +38,10 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+# Ignore Kotlin build caches and temporary files
+caches/
+daemon/
+kotlin-profile/
+native/
+wrapper/
