@@ -1,6 +1,7 @@
 package com.mini.bank.backend.dto
 
 import com.mini.bank.backend.enums.Gender
+import com.mini.bank.backend.enums.RoleType
 
 data class CreateUserRequest(
     val lastName: String,
@@ -10,7 +11,10 @@ data class CreateUserRequest(
     val phoneNumber: String,
     val address: String,
     val taxIdentifier: String,
-    val gender: Gender
+    val gender: Gender,
+    val username: String,
+    val password: String,
+    val role: RoleType
 )
 
 data class UpdateUserRequest(
@@ -21,7 +25,7 @@ data class UpdateUserRequest(
     val phoneNumber: String?,
     val address: String?,
     val taxIdentifier: String?,
-    val gender: Gender?
+    val gender: Gender?,
 )
 
 data class UserResponse(
@@ -33,5 +37,8 @@ data class UserResponse(
     val phoneNumber: String,
     val address: String,
     val taxIdentifier: String,
-    val gender: Gender
+    val gender: Gender,
+    val role: RoleType,
+    val username: String,
+//    val password: String
 )

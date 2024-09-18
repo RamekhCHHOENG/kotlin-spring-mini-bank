@@ -5,13 +5,14 @@ import com.mini.bank.backend.dto.UpdateUserRequest
 import com.mini.bank.backend.dto.UserResponse
 import com.mini.bank.backend.model.user.User
 import com.mini.bank.backend.repository.user.UserRepository
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.text.SimpleDateFormat
 import java.util.*
 
 @Service
-class UserService(private val userRepository: UserRepository) {
+class UserService(private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder ) {
 
     fun getAllUsers(): List<UserResponse> =
         userRepository.findAll().map { it.toResponse() }
@@ -21,6 +22,9 @@ class UserService(private val userRepository: UserRepository) {
 
     @Transactional
     fun createUser(createUserRequest: CreateUserRequest): UserResponse {
+        // Encode the password before creating the user
+        val encodedPassword = passwordEncoder.encode(createUserRequest.password)
+
         val user = User(
             userId = 0,
             lastName = createUserRequest.lastName,
@@ -30,7 +34,10 @@ class UserService(private val userRepository: UserRepository) {
             phoneNumber = createUserRequest.phoneNumber,
             address = createUserRequest.address,
             taxIdentifier = createUserRequest.taxIdentifier,
-            gender = createUserRequest.gender
+            gender = createUserRequest.gender,
+            role = createUserRequest.role,
+            username = createUserRequest.username,
+            password = encodedPassword // Use the encoded password
         )
         return userRepository.save(user).toResponse()
     }
@@ -67,7 +74,9 @@ class UserService(private val userRepository: UserRepository) {
         phoneNumber = phoneNumber,
         address = address,
         taxIdentifier = taxIdentifier,
-        gender = gender
+        gender = gender,
+        role = role,
+        username = username
     )
 
     // Example function to parse date strings; adjust as necessary
